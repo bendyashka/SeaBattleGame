@@ -14,6 +14,18 @@ public class Main {
     private static void putShips() {
     }
 
-    private static void gameboard(char[][] theGround) {
+    public static void gameboard(char[][] theGround) {
+        for (int i = 0; i < theGround.length; i++) {
+            for (int j = 0; j < theGround[i].length; j++) {
+                theGround[i][j] = '&';
+            }
+        }
+
+        for (int g = 0; g < theGround.length; g++) {
+            for (int j = 0; j < theGround[g].length; j++) {
+                System.out.print(theGround[g][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }

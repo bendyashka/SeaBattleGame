@@ -12,6 +12,15 @@ public class Main {
     }
 
     private static void putShips() {
+        Random random = new Random();
+        int vertical = 1;
+        int horizontal = 2;
+        int miniumSizeofBigShip = 1;
+        int maxiumSizeofBigShip = 7;
+        int randomNum = random.nextInt(maxiumSizeofBigShip - miniumSizeofBigShip + 1) + miniumSizeofBigShip;
+        int randomNum2 = random.nextInt(maxiumSizeofBigShip - miniumSizeofBigShip + 1) + miniumSizeofBigShip;
+        int directionOfBigShip = random.nextInt(horizontal - vertical + 1) + vertical;
+        System.out.println(randomNum + " " + randomNum2 + " " + directionOfBigShip);
     }
 
     public static void gameboard(char[][] theGround) {

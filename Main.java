@@ -30,7 +30,19 @@ public class Main {
         int directionOfBigShip = random.nextInt(horizontal - vertical + 1) + vertical;
         System.out.println(randomNum + " " + randomNum2 + " " + directionOfBigShip);
         char ship = 'S';
-        theGround[randomNum][randomNum2] = ship;
+        if (randomNum >= 0 && randomNum < 7 && randomNum2 >= 0 && randomNum2 < 7) {
+            theGround[randomNum][randomNum2] = ship;
+
+            if (directionOfBigShip == vertical) {
+                for (int i = 1; i < 3 && randomNum + i < 7; i++) {
+                    theGround[randomNum + i][randomNum2] = ship;
+                }
+            } else {
+                for (int i = 1; i < 3 && randomNum2 + i < 7; i++) {
+                    theGround[randomNum][randomNum2 + i] = ship;
+                }
+            }
+        }
     }
 
     public static void gameboard(char[][] theGround) {

@@ -6,13 +6,14 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
-        char[][] theGround = new char[6][6];
+        char[][] theGround = new char[7][7];
         int vertical = 1;
         int horizontal = 2;
         gameboard(theGround);
         putShips(theGround);
-        for (int i= 0; i < 6; i++){
-            for (int j =0; j<6;j++){
+
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
                 System.out.print(theGround[i][j] + " ");
             }
             System.out.println();
@@ -25,11 +26,13 @@ public class Main {
         int horizontal = 2;
         int minimumSizeOfBigShip = 0;
         int maximumSizeOfBigShip = 6;
+
         int randomNum = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
         int randomNum2 = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
         int directionOfBigShip = random.nextInt(horizontal - vertical + 1) + vertical;
         System.out.println(randomNum + " " + randomNum2 + " " + directionOfBigShip);
         char ship = 'S';
+
         if (randomNum >= 0 && randomNum < 7 && randomNum2 >= 0 && randomNum2 < 7) {
             theGround[randomNum][randomNum2] = ship;
 

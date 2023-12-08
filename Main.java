@@ -9,10 +9,10 @@ public class Main {
         char[][] theGround = new char[7][7];
         int vertical = 1;
         int horizontal = 2;
-        //  gameboard(theGround);
+        gameboard(theGround);
         putShips(theGround);
-        putMediumShips(theGround);
-        putMediumShips(theGround);
+       // putMediumShips(theGround);
+       // putMediumShips(theGround);
 
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
@@ -26,8 +26,8 @@ public class Main {
         Random random = new Random();
         int vertical = 1;
         int horizontal = 2;
-        int minimumSizeOfBigShip = 0;
-        int maximumSizeOfBigShip = 6;
+        int minimumSizeOfBigShip = 1;
+        int maximumSizeOfBigShip = 5;
 
         int randomNum = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
         int randomNum2 = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
@@ -40,8 +40,8 @@ public class Main {
         Random random = new Random();
         int vertical = 1;
         int horizontal = 2;
-        int minimumSizeOfBigShip = 0;
-        int maximumSizeOfBigShip = 6;
+        int minimumSizeOfBigShip = 1;
+        int maximumSizeOfBigShip = 5;
 
         int randomNum = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
         int randomNum2 = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
@@ -56,8 +56,8 @@ public class Main {
             }
             else {
 
-            theGround[randomNum][randomNum2] = ship;
-        }
+                theGround[randomNum][randomNum2] = ship;
+            }
 
             if (directionOfBigShip == vertical) {
                 for (int i = 1; i < 2 && randomNum + i < 7; i++) {
@@ -79,8 +79,8 @@ public class Main {
         Random random = new Random();
         int vertical = 1;
         int horizontal = 2;
-        int minimumSizeOfBigShip = 0;
-        int maximumSizeOfBigShip = 6;
+        int minimumSizeOfBigShip = 1;
+        int maximumSizeOfBigShip = 5;
 
         int randomNum = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
         int randomNum2 = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
@@ -92,18 +92,13 @@ public class Main {
             theGround[randomNum][randomNum2] = ship;
 
             if (directionOfBigShip == vertical) {
-                for (int i = 1; i < 3 && randomNum + i < 7; i++) {
-                    if (randomNum + i >= 0 && randomNum + i < 7) {
-                        theGround[randomNum + i][randomNum2] = ship;
-                    }
-                }
+                theGround[randomNum + 1][randomNum2] = ship;
+                theGround[randomNum - 1][randomNum2] = ship;
             } else {
-                for (int i = 1; i < 3 && randomNum2 + i < 7; i++) {
-                    if (randomNum2 + i >= 0 && randomNum2 + i < 7) {
-                        theGround[randomNum][randomNum2 + i] = ship;
-                    }
-                }
+                theGround[randomNum][randomNum2 + 1] = ship;
+                theGround[randomNum][randomNum2 - 1] = ship;
             }
+
         }
     }
 
@@ -122,4 +117,3 @@ public class Main {
         }
     }
 }
-

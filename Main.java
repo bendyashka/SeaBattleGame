@@ -13,14 +13,64 @@ public class Main {
         putShips(theGround);
         putMediumShips(theGround);
         putMediumShips(theGround);
+        putSingleShips(theGround);
+        actualGameBoard(theGround);
+        actualGameBoard(theGround);
 
+    }
+
+    private static void actualGameBoard(char[][] theGround) {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 System.out.print(theGround[i][j] + " ");
             }
             System.out.println();
         }
+        System.out.println();
     }
+
+    private static void putSingleShips(char[][] theGround) {
+        Random random = new Random();
+        int vertical = 1;
+        int horizontal = 2;
+        int minimumSizeOfShip = 1;
+        int maximumSizeOfShip = 5;
+        char ship = 'L';
+
+        for (int k = 0; k < 4; k++) {
+            boolean clearPlace = false;
+
+            while (!clearPlace) {
+                int randomNum = random.nextInt(7);
+                int randomNum2 = random.nextInt(7);
+
+                boolean isValidPlacement = true;
+
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        int newRow = randomNum + i;
+                        int newCol = randomNum2 + j;
+                        if (newRow >= 0 && newRow < 7 && newCol >= 0 && newCol < 7) {
+                            if (theGround[newRow][newCol] == 'S' || theGround[newRow][newCol] == 'M' || theGround[newRow][newCol] == 'L') {
+                                isValidPlacement = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (!isValidPlacement) {
+                        break;
+                    }
+                }
+
+                if (isValidPlacement) {
+                    theGround[randomNum][randomNum2] = ship;
+                //    System.out.println("1: " + randomNum + " " + randomNum2);
+                    clearPlace = true;
+                }
+            }
+        }
+    }
+
 
     public static int[] randomizecoord(int[] data) {
         Random random = new Random();
@@ -99,7 +149,7 @@ public class Main {
                         theGround[randomNum][randomNum2 + 1] = ship1;
                     }
 
-                    System.out.println("2: " + randomNum + " " + randomNum2);
+                    // System.out.println("2: " + randomNum + " " + randomNum2);
                     clearplace = true;
                 }
             }
@@ -124,7 +174,7 @@ public class Main {
         int randomNum = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
         int randomNum2 = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
         int directionOfBigShip = random.nextInt(horizontal - vertical + 1) + vertical;
-        System.out.println(randomNum + " " + randomNum2 + " " + directionOfBigShip);
+       // System.out.println(randomNum + " " + randomNum2 + " " + directionOfBigShip);
         char ship = 'S';
 
         if (randomNum >= 0 && randomNum < 7 && randomNum2 >= 0 && randomNum2 < 7) {
@@ -154,5 +204,6 @@ public class Main {
             }
             System.out.println();
         }
+        System.out.println();
     }
 }

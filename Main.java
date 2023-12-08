@@ -11,7 +11,7 @@ public class Main {
         int horizontal = 2;
         gameboard(theGround);
         putShips(theGround);
-
+        
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 System.out.print(theGround[i][j] + " ");
@@ -38,11 +38,15 @@ public class Main {
 
             if (directionOfBigShip == vertical) {
                 for (int i = 1; i < 3 && randomNum + i < 7; i++) {
-                    theGround[randomNum + i][randomNum2] = ship;
+                    if (randomNum + i >= 0 && randomNum + i < 7) {
+                        theGround[randomNum + i][randomNum2] = ship;
+                    }
                 }
             } else {
                 for (int i = 1; i < 3 && randomNum2 + i < 7; i++) {
-                    theGround[randomNum][randomNum2 + i] = ship;
+                    if (randomNum2 + i >= 0 && randomNum2 + i < 7) {
+                        theGround[randomNum][randomNum2 + i] = ship;
+                    }
                 }
             }
         }
@@ -63,3 +67,4 @@ public class Main {
         }
     }
 }
+

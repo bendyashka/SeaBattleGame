@@ -6,16 +6,37 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
-        System.out.print("Enter your name: ");
-        String name = scanner.nextLine();
-        System.out.println(name);
+        System.out.print("Enter the number of players: ");
+        int numberOfPlayers = scanner.nextInt();
+        scanner.nextLine();
 
-        int Scores = 0;
+        String[] playerNames = new String[numberOfPlayers];
+
+        for (int i = 0; i < numberOfPlayers; i++) {
+            System.out.print("Enter name for Player " + (i + 1) + ": ");
+            playerNames[i] = scanner.nextLine();
+        }
+
+        boolean playAgain = true;
+
+        while (playAgain) {
+            for (int i = 0; i < numberOfPlayers; i++) {
+                System.out.println("Player: " + playerNames[i]);
+                int score = playGame(scanner, random);
+                System.out.println("Scores for " + playerNames[i] + ": " + score);
+            }
+
+            System.out.print("Do you want to play again? (yes/no): ");
+            String playAgainInput = scanner.nextLine().toLowerCase();
+            playAgain = playAgainInput.equals("yes");
+        }
+    }
+
+    private static int playGame(Scanner scanner, Random random) {
+        int scores = 0;
 
         char[][] theGround = new char[7][7];
         char[][] hiddenGround = new char[7][7];
-        int vertical = 1;
-        int horizontal = 2;
         gameboard(theGround, hiddenGround);
         putShips(theGround, hiddenGround);
         putMediumShips(theGround, hiddenGround);
@@ -31,10 +52,27 @@ public class Main {
 
             if (isGameFinished(theGround, hiddenGround)) {
                 System.out.println("All ships Destroyed!");
-                System.out.println("Count of shoot: " + i );
+                System.out.println("Count of shoot: " + i);
+                scores = calculateScores(theGround);
+                System.out.println("Scores: " + scores);
                 break;
             }
         }
+
+        return scores;
+    }
+
+    private static int calculateScores(char[][] theGround) {
+        int scores = 0;
+        for (int i = 0; i < theGround.length; i++) {
+            for (int j = 0; j < theGround[i].length; j++) {
+                char target = theGround[i][j];
+                if (target == 'S' || target == 'M' || target == 'L') {
+                    scores += (target == 'S') ? 1 : ((target == 'M') ? 2 : 3);
+                }
+            }
+        }
+        return scores;
     }
 
     private static void makeShot(char[][] theGround, char[][] hiddenGround, Scanner scanner) {

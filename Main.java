@@ -15,6 +15,7 @@ public class Main {
 
             int scores = playGame(scanner, random);
 
+            System.out.print("\033[H\033[J");
             System.out.println("All ships Destroyed!");
             System.out.println("Count of shots: " + scores);
 
@@ -110,6 +111,9 @@ public class Main {
                     markDestroyedShip(hiddenGround, target, theGround);
 
                 }
+                System.out.print("\033[H\033[J");
+                System.out.print("\033[H\033[J");
+                System.out.println(" ");
             }
 
             else {

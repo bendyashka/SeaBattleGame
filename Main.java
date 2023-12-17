@@ -1,28 +1,33 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
+        List<Player> players = new ArrayList<>();
 
         while (true) {
             System.out.print("Enter your name: ");
             String name = scanner.nextLine();
-            System.out.println(name);
 
             int scores = playGame(scanner, random);
 
             System.out.println("All ships Destroyed!");
-            System.out.println("Count of shots: " + 100 / scores);
+            System.out.println("Count of shots: " + scores);
 
 
             System.out.print("Do you want to start a new game? (yes/no): ");
             String playAgain = scanner.next().toLowerCase();
 
+
+            players.add(new Player(name, scores));
+
             if (playAgain.equals("no")) {
 
-                displayStatistics(name, scores);
+                displayOverallStatistics(players);
                 break;
             }
 
@@ -30,7 +35,23 @@ public class Main {
             scanner.nextLine();
         }
     }
+    private static class Player {
+        private final String name;
+        private final int scores;
 
+        public Player(String name, int scores) {
+            this.name = name;
+            this.scores = scores;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getScores() {
+            return scores;
+        }
+    }
     private static int playGame(Scanner scanner, Random random) {
         char[][] theGround = new char[7][7];
         char[][] hiddenGround = new char[7][7];
@@ -64,7 +85,7 @@ public class Main {
     }
 
     private static void makeShot(char[][] theGround, char[][] hiddenGround, Scanner scanner) {
-        System.out.print("Input coordinates (example:  1:1): ");
+        System.out.print("Input coordinates (example:  1 1): ");
         int inputrow = scanner.nextInt();
         int inputcol = scanner.nextInt();
 
@@ -101,12 +122,13 @@ public class Main {
         }
     }
 
-    private static void displayStatistics(String name, int scores) {
+    private static void displayOverallStatistics(List<Player> players) {
 
-        System.out.println("=== Statistics ===");
-        System.out.println("Player: " + name);
-        System.out.println("Scores: " + scores);
+        System.out.println("Overall Statistics:");
 
+        for (Player player : players) {
+            System.out.println("Player: " + player.getName() + ", Scores: " + player.getScores());
+        }
     }
 
     private static void markDestroyedShip(char[][] hiddenGround, char shipType, char[][] theGround) {
@@ -329,4 +351,5 @@ public class Main {
         }
         System.out.println();
     }
+
 }

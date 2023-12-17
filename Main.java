@@ -15,8 +15,6 @@ public class Main {
         putMediumShips(theGround, hiddenGround);
         putMediumShips(theGround, hiddenGround);
         putSingleShips(theGround, hiddenGround);
-        actualGameBoard(theGround);
-
 
         while (true) {
             makeShot(theGround, hiddenGround, scanner);
@@ -30,44 +28,58 @@ public class Main {
     }
 
     private static void makeShot(char[][] theGround, char[][] hiddenGround, Scanner scanner) {
-        System.out.println("\033[H\033[2J");  // Очистка консоли
-        actualGameBoard(hiddenGround);
-        System.out.print("Input coordinates (example:  1:1): ");
-        String input = scanner.nextLine();
-        String[] coordinates = input.split(":");
+        System.out.print("Input coordinates (example:  1 1): ");
+        int inputrow = scanner.nextInt();
+        int inputcol = scanner.nextInt();
 
-        int row = Integer.parseInt(coordinates[0]) - 1;
-        int col = Integer.parseInt(coordinates[1]) - 1;
+        int row = inputrow - 1;
+        int col = inputcol - 1;
 
         if (isValidShot(row, col) && hiddenGround[row][col] == '&') {
             char target = theGround[row][col];
-            hiddenGround[row][col] = (target != '&') ? 'X' : '*';
 
             if (target != '&') {
                 System.out.println("Hit!");
-                char hit = 'h';
-                hiddenGround[row][col] =hit;
+                char hit = 'H';
+                hiddenGround[row][col] = hit;
 
                 if (isShipDestroyed(theGround, hiddenGround, target)) {
-                    System.out.println("Ship Destoyed!");
-                    char destroyed = 'd';
-                    hiddenGround[row][col] =destroyed;
-
+                    System.out.println("Ship Destroyed!");
+                    markDestroyedShip(hiddenGround, target, theGround);
                 }
             } else {
                 System.out.println("Miss!");
-                char miss = 'm';
+                char miss = 'M';
                 hiddenGround[row][col] = miss;
-
             }
         } else {
-            System.out.println("Некорректные координаты или вы уже стреляли в эту ячейку. Попробуйте еще раз.");
+            System.out.println("Invalid coordinates or you've already shot at this cell. Try again.");
         }
     }
 
 
+    private static void markDestroyedShip(char[][] theGround, char[][] hiddenGround, char shipType) {
+        for (int i = 0; i < theGround.length; i++) {
+            for (int j = 0; j < theGround[i].length; j++) {
+                if (theGround[i][j] == shipType && hiddenGround[i][j] == 'H') {
+                    hiddenGround[i][j] = 'D';
+                }
+            }
+        }
+    }
+
     private static boolean isValidShot(int row, int col) {
         return row >= 0 && row < 7 && col >= 0 && col < 7;
+
+    }
+    private static void markDestroyedShip(char[][] hiddenGround, char shipType,char[][] theGround) {
+        for (int i = 0; i < hiddenGround.length; i++) {
+            for (int j = 0; j < hiddenGround[i].length; j++) {
+                if (hiddenGround[i][j] == 'H' && theGround[i][j] == shipType) {
+                    hiddenGround[i][j] = 'D';  // Mark destroyed part of the ship
+                }
+            }
+        }
     }
 
     private static boolean isShipDestroyed(char[][] theGround, char[][] hiddenGround, char shipType) {
@@ -82,11 +94,11 @@ public class Main {
         return true;
     }
 
-    private static boolean isGameFinished(char[][] theGround, char[][] hiddenGround) {
-        for (int i = 0; i < theGround.length; i++) {
-            for (int j = 0; j < theGround[i].length; j++) {
-                char target = theGround[i][j];
-                if ((target == 'S' || target == 'M' || target == 'L') && hiddenGround[i][j] == '&') {
+    private static boolean isGameFinished(char[][] hiddenGround) {
+        for (int i = 0; i < hiddenGround.length; i++) {
+            for (int j = 0; j < hiddenGround[i].length; j++) {
+                char target = hiddenGround[i][j];
+                if ((target == 'S' || target == 'M' || target == 'L') && target != 'D') {
                     return false;
                 }
             }

@@ -6,6 +6,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        System.out.println(name);
+
+        int Scores = 0;
+
         char[][] theGround = new char[7][7];
         char[][] hiddenGround = new char[7][7];
         int vertical = 1;
@@ -16,19 +22,23 @@ public class Main {
         putMediumShips(theGround, hiddenGround);
         putSingleShips(theGround, hiddenGround);
 
+        int i = 0;
+
         while (true) {
             makeShot(theGround, hiddenGround, scanner);
             actualGameBoard(hiddenGround);
+            i++;
 
-            if (isGameFinished(hiddenGround)) {
+            if (isGameFinished(theGround, hiddenGround)) {
                 System.out.println("All ships Destroyed!");
+                System.out.println("Count of shoot: " + i );
                 break;
             }
         }
     }
 
     private static void makeShot(char[][] theGround, char[][] hiddenGround, Scanner scanner) {
-        System.out.print("Input coordinates (example:  1 1): ");
+        System.out.print("Input coordinates (example:  1:1): ");
         int inputrow = scanner.nextInt();
         int inputcol = scanner.nextInt();
 
@@ -45,7 +55,7 @@ public class Main {
 
                 if (isShipDestroyed(theGround, hiddenGround, target)) {
                     System.out.println("Ship Destroyed!");
-                    markDestroyedShip(hiddenGround, target, theGround);
+                    markDestroyedShip(hiddenGround, target);
                 }
             } else {
                 System.out.println("Miss!");
@@ -57,11 +67,10 @@ public class Main {
         }
     }
 
-
-    private static void markDestroyedShip(char[][] theGround, char[][] hiddenGround, char shipType) {
-        for (int i = 0; i < theGround.length; i++) {
-            for (int j = 0; j < theGround[i].length; j++) {
-                if (theGround[i][j] == shipType && hiddenGround[i][j] == 'H') {
+    private static void markDestroyedShip(char[][] hiddenGround, char shipType) {
+        for (int i = 0; i < hiddenGround.length; i++) {
+            for (int j = 0; j < hiddenGround[i].length; j++) {
+                if (hiddenGround[i][j] == 'H' && hiddenGround[i][j] != 'D') {
                     hiddenGround[i][j] = 'D';
                 }
             }
@@ -70,13 +79,14 @@ public class Main {
 
     private static boolean isValidShot(int row, int col) {
         return row >= 0 && row < 7 && col >= 0 && col < 7;
-
     }
-    private static void markDestroyedShip(char[][] hiddenGround, char shipType,char[][] theGround) {
+
+
+    private static void markDestroyedShip(char[][] hiddenGround, char shipType, char[][] theGround) {
         for (int i = 0; i < hiddenGround.length; i++) {
             for (int j = 0; j < hiddenGround[i].length; j++) {
                 if (hiddenGround[i][j] == 'H' && theGround[i][j] == shipType) {
-                    hiddenGround[i][j] = 'D';  // Mark destroyed part of the ship
+                    hiddenGround[i][j] = 'D';
                 }
             }
         }
@@ -85,20 +95,7 @@ public class Main {
     private static boolean isShipDestroyed(char[][] theGround, char[][] hiddenGround, char shipType) {
         for (int i = 0; i < theGround.length; i++) {
             for (int j = 0; j < theGround[i].length; j++) {
-                if (theGround[i][j] == shipType && hiddenGround[i][j] != 'X') {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean isGameFinished(char[][] hiddenGround) {
-        for (int i = 0; i < hiddenGround.length; i++) {
-            for (int j = 0; j < hiddenGround[i].length; j++) {
-                char target = hiddenGround[i][j];
-                if ((target == 'S' || target == 'M' || target == 'L') && target != 'D') {
+                if (theGround[i][j] == shipType && hiddenGround[i][j] == '&') {
                     return false;
                 }
             }
@@ -106,7 +103,17 @@ public class Main {
         return true;
     }
 
-
+    private static boolean isGameFinished(char[][] theGround, char[][] hiddenGround) {
+        for (int i = 0; i < theGround.length; i++) {
+            for (int j = 0; j < theGround[i].length; j++) {
+                char target = theGround[i][j];
+                if ((target == 'S' || target == 'M' || target == 'L') && hiddenGround[i][j] != 'D') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     private static void actualGameBoard(char[][] hiddenGround) {
         for (int i = 0; i < 7; i++) {
@@ -164,7 +171,9 @@ public class Main {
         Random random = new Random();
         int vertical = 1;
         int horizontal = 2;
-        int minimumSizeOfBigShip = 1;
+        int minimumSizeOfBigShip = 1
+
+                ;
         int maximumSizeOfBigShip = 5;
 
         int randomNum = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;

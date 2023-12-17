@@ -17,9 +17,9 @@ public class Main {
         int vertical = 1;
         int horizontal = 2;
         gameboard(theGround, hiddenGround);
-        putShips(theGround, hiddenGround);
-        putMediumShips(theGround, hiddenGround);
-        putMediumShips(theGround, hiddenGround);
+        putShips(theGround);
+        putMediumShips(theGround);
+        putMediumShips(theGround);
         putSingleShips(theGround, hiddenGround);
 
         int i = 0;
@@ -180,7 +180,7 @@ public class Main {
         return result;
     }
 
-    private static void putMediumShips(char[][] theGround, char[][] hiddenGround) {
+    private static void putMediumShips(char[][] theGround) {
         Random random = new Random();
         int vertical = 1;
         int horizontal = 2;
@@ -236,16 +236,21 @@ public class Main {
 
                 if (neigboorPlaceClear) {
                     theGround[randomNum][randomNum2] = ship1;
-                    theGround[randomNum + 1][randomNum2] = ship1;
-                    hiddenGround[randomNum][randomNum2] = '&';
-                    hiddenGround[randomNum + 1][randomNum2] = '&';
+
+                    if (directionOfBigShip == vertical) {
+                        theGround[randomNum + 1][randomNum2] = ship1;
+                    } else {
+                        theGround[randomNum][randomNum2 + 1] = ship1;
+                    }
+
+                    // System.out.println("2: " + randomNum + " " + randomNum2);
                     clearplace = true;
                 }
             }
         }
     }
 
-    private static void putShips(char[][] theGround, char[][] hiddenGround) {
+    private static void putShips(char[][] theGround) {
         Random random = new Random();
         int vertical = 1;
         int horizontal = 2;
@@ -255,15 +260,20 @@ public class Main {
         int randomNum = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
         int randomNum2 = random.nextInt(maximumSizeOfBigShip - minimumSizeOfBigShip + 1) + minimumSizeOfBigShip;
         int directionOfBigShip = random.nextInt(horizontal - vertical + 1) + vertical;
+        // System.out.println(randomNum + " " + randomNum2 + " " + directionOfBigShip);
         char ship = 'S';
 
         if (randomNum >= 0 && randomNum < 7 && randomNum2 >= 0 && randomNum2 < 7) {
             theGround[randomNum][randomNum2] = ship;
-            theGround[randomNum + 1][randomNum2] = ship;
-            theGround[randomNum - 1][randomNum2] = ship;
-            hiddenGround[randomNum][randomNum2] = '&';
-            hiddenGround[randomNum + 1][randomNum2] = '&';
-            hiddenGround[randomNum - 1][randomNum2] = '&';
+
+            if (directionOfBigShip == vertical) {
+                theGround[randomNum + 1][randomNum2] = ship;
+                theGround[randomNum - 1][randomNum2] = ship;
+            } else {
+                theGround[randomNum][randomNum2 + 1] = ship;
+                theGround[randomNum][randomNum2 - 1] = ship;
+            }
+
         }
     }
 
